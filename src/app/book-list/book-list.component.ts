@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+
+import { Book } from '../book';
 
 @Component({
   moduleId: module.id,
@@ -8,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BookListComponent implements OnInit {
 
+  @Input() books:Book[];
+  
   constructor() {}
 
   ngOnInit() {
   }
 
+  getAuthors(book:Book):string {
+    return book.authors.reduce((prev, current) => prev + ", " + current);
+  }
 }

@@ -1,3 +1,13 @@
-<p>
-  book-list works!
-</p>
+<div *ngFor="let book of books" class="media">
+  <div class="media-left">
+    <img *ngIf="book.imageLinks?.thumbnail" class="media-object" [src]="book.imageLinks?.thumbnail">
+    <img *ngIf="!book.imageLinks?.thumbnail" class="media-object" src="/open-book-top-view.svg" width="128">
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading">
+      {{book.title}} <small>{{book.subtitle}}</small> 
+    </h4>
+    <p><em>by {{getAuthors(book)}}</em>, {{book.pageCount}} pages <span class="label label-pill label-info">{{book.language | uppercase}}</span></p>
+    {{book.description}}
+  </div>
+</div>

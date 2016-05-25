@@ -4,17 +4,15 @@
 /** Map relative paths to URLs. */
 const map: any = {
   'ng2-bootstrap': 'vendor/ng2-bootstrap',
-  'moment': 'vendor/moment'
+  'underscore': 'vendor/underscore/underscore.js'
 };
 
 /** User packages configuration. */
 const packages: any = {
-  'moment': {
-    main: 'moment'
-  },
   'ng2-bootstrap': {
-    defaultExtension: 'js',
-    main: 'ng2-bootstrap'
+    map: {
+      'moment': 'vendor/moment/moment.js'
+    }
   }
 };
 
