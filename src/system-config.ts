@@ -4,7 +4,9 @@
 /** Map relative paths to URLs. */
 const map: any = {
   'ng2-bootstrap': 'vendor/ng2-bootstrap',
-  'underscore': 'vendor/underscore/underscore.js'
+  'underscore': 'vendor/underscore/underscore.js',
+  'firebase': 'vendor/firebase/lib/firebase-web.js',
+  'angularfire2': 'vendor/angularfire2'  
 };
 
 /** User packages configuration. */
@@ -13,7 +15,11 @@ const packages: any = {
     map: {
       'moment': 'vendor/moment/moment.js'
     }
-  }
+  },
+  angularfire2: {
+    defaultExtension: 'js',
+    main: 'angularfire2.js'
+  }  
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,6 +46,8 @@ const barrels: string[] = [
   'app/+user',
   'app/+settings',
   'app/book-form',
+  'app/header',
+  'app/+signup',
   /** @cli-barrel */
 ];
 

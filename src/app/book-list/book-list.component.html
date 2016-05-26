@@ -1,4 +1,5 @@
-<div *ngFor="let book of books" class="media">
+<div *ngFor="let book of books" (click)="onClick(book)" class="media book">
+  <!--{{ book | json }}-->
   <div class="media-left">
     <img *ngIf="book.imageLinks?.thumbnail" class="media-object" [src]="book.imageLinks?.thumbnail">
     <img *ngIf="!book.imageLinks?.thumbnail" class="media-object" src="/open-book-top-view.svg" width="128">
@@ -8,6 +9,6 @@
       {{book.title}} <small>{{book.subtitle}}</small> 
     </h4>
     <p><em>by {{getAuthors(book)}}</em>, {{book.pageCount}} pages <span class="label label-pill label-info">{{book.language | uppercase}}</span></p>
-    {{book.description}}
+    {{book.description | shorten:600}}
   </div>
 </div>

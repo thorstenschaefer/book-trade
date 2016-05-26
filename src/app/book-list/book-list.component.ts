@@ -1,16 +1,19 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Book } from '../book';
+import { Shorten } from '../shorten.pipe';
 
 @Component({
   moduleId: module.id,
   selector: 'app-book-list',
   templateUrl: 'book-list.component.html',
-  styleUrls: ['book-list.component.css']
+  styles: ['.book { cursor:pointer }'],
+  pipes: [Shorten]
 })
 export class BookListComponent implements OnInit {
 
   @Input() books:Book[];
+  @Output() bookSelected = new EventEmitter();
   
   constructor() {}
 
@@ -18,6 +21,17 @@ export class BookListComponent implements OnInit {
   }
 
   getAuthors(book:Book):string {
+    if (!book)
+      return "";
+    if (!book.authors)
+      return "Unknown authors";
     return book.authors.reduce((prev, current) => prev + ", " + current);
+  }
+  
+  onClick(book:Book) {
+    if (!book)
+      return;
+    console.log("Selected book " + JSON.stringify(book));
+    this.bookSelected.emit(book);
   }
 }
