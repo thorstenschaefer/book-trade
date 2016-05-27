@@ -71,6 +71,10 @@ export class BookService {
     return this.userBooks;
   }
   
+  getBook(id:string):Observable<Book> {
+    return this.af.object('/books/' + id);
+  }
+  
   addBook(user:User, book:Book) {
     console.log("Adding book " + book.title + " to user " + user.name);
     if (this.userBooks === null) {

@@ -48,6 +48,8 @@ const barrels: string[] = [
   'app/book-form',
   'app/header',
   'app/+signup',
+  'app/+book',
+  'app/+home',
   /** @cli-barrel */
 ];
 

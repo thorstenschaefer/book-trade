@@ -1,0 +1,21 @@
+<div class="jumbotron">
+    <h1>BookTrade</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <p>At BookTrade, users can maintain their book library online. Look at books other users have read and if you like
+                one, make a trade request.</p>
+        </div>
+        <div class="col-md-4">
+            <carousel [interval]="3000">
+                <slide *ngFor="let book of books; let index=index">
+                    <img *ngIf="book.imageLinks?.thumbnail" [src]="book.imageLinks.thumbnail" style="margin:auto;">
+                </slide>
+            </carousel>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <h2>Browse all books</h2>
+    <app-book-list [books]="books" (bookSelected)="gotoBookDetails($event)"></app-book-list>
+</div>

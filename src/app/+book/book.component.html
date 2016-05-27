@@ -1,0 +1,16 @@
+  <div *ngIf="book" class="row">
+    <div class="col-md-2">
+      <img *ngIf="book.imageLinks?.thumbnail" class="media-object" [src]="book.imageLinks?.thumbnail">
+      <img *ngIf="!book.imageLinks?.thumbnail" class="media-object" src="/open-book-top-view.svg" width="128">
+    </div>
+    <div class="col-md-10">
+      <h5>Title</h5> {{book.title}}
+      <h5>Subtitle</h5> {{book.subtitle}}
+      <h5>Authors</h5>{{getAuthors(book)}}
+      <h5>Pages</h5> {{book.pageCount}}
+      <h5>Description</h5> {{book.description}}
+      <div>
+        <a [routerLink]="['/']" class="btn btn-primary">Home</a>
+      </div>
+    </div>
+  </div>

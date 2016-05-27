@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
     promise.then(value => {
       console.log("PROMISE.THEN");
       console.log(value);
-      this.router.navigate(['/user']);//, 'user', value.password.email]);
+      this.router.navigate(['/user/', value.uid]);//, 'user', value.password.email]);
     }).catch(reason => alert(reason));
   }
 
