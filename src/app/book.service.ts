@@ -17,16 +17,30 @@ const GOOGLE_BOOKS_API = 'https://www.googleapis.com/books/v1/volumes';
 @Injectable()
 export class BookService {
   
-  private books:FirebaseListObservable<Book[]>;
+  public allBooks:FirebaseListObservable<Book[]>;
+  private userBooks:FirebaseListObservable<Book[]>;
   
   constructor(
     private http:Http,
     private af:AngularFire,
     private userService:UserService
   ) {
-    this.books = this.af.list('/books');
+    console.log("INIT BOOK SERVCIE")
+    this.allBooks = this.af.list('/books');
+    console.log("goot book list");
+    userService.getUser().subscribe(user => this.userBooks = this.getBookListOfUser(user));
+    console.log("DONE INIT BOOK SERVCIE")
   }
 
+  private getBookListOfUser(user:User) {
+    console.log("getting user books for " + JSON.stringify(user));
+    if (user === null)
+      return null;
+    console.log("retrieving user books for user " + JSON.stringify(user));
+    return this.af.list('/users/' + user.id + '/books');
+      
+  }
+  
   
   findBooks(query:string):Observable<Book[]> {
     console.log("Finding books using query: " + query);
@@ -44,32 +58,46 @@ export class BookService {
       .map(array => array.map(bookInfo => <Book>_.pick(bookInfo, 'id', 'authors', 'title', 'subtitle', 'language', 'description', 'pageCount', 'imageLinks')));    
   }
   
-  getAllBooks(): Observable<Book[]> {
-    return this.af.list('/books');
-  }
+  // getAllBooks(): Observable<Book[]> {
+  //   console.log("Retrieving all books");
+  //   return this.af.list('/books');
+  // }
   
   getBooksOfUser(userId: string): Observable<Book[]> {
+    console.log("Retrieving books of user..." + userId);
     if (!userId || userId.length === 0)
       return Observable.of([]);
-      
-    // this.af.list('/users/books').subscribe(r => console.log(r));
-    return null;
+      console.log("returning user book list");
+    return this.userBooks;
   }
   
   addBook(user:User, book:Book) {
-    this.userService.getAuthentication().subscribe(
-      user => {
-        if (user === null)
-          return;
+    console.log("Adding book " + book.title + " to user " + user.name);
+    if (this.userBooks === null) {
+      console.warn("User " + user.name + " not logged in");
+      return;
+    }
+    
+    console.log("pushing book to general book list");
+    this.allBooks.push(book);
+    console.log("pushing book to user book list");
+    this.userBooks.push(book);
+    // 
+    // this.userService.user.
+    
+    // this.userService.getAuthentication().subscribe(
+    //   user => {
+    //     if (user === null)
+    //       return;
         
-        console.log("TODO: Adding book " + book.title + " for user " + user.id);
-        let key = this.books.push(book).key();
-        console.log(key);
+    //     console.log("TODO: Adding book " + book.title + " for user " + user.id);
+    //     let key = this.books.push(book).key();
+    //     console.log(key);
         
-        // TODO
-        this.userService.getUserData().subscribe(r => console.log(r));
-      }
-    );
+    //     // TODO
+    //     this.userService.getUserData().subscribe(r => console.log(r));
+    //   }
+    // );
 
     // this.af.database("/")
   }

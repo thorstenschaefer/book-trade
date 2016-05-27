@@ -1,13 +1,20 @@
 <h3>Signup</h3>
+this is the user observable..
+{{ userService.getUser() | async | json }}
 
+<p>this is the user of the form
+{{ user | json }}
+</p>
+<!--this is the auth
+{{ userService.af.auth | async | json }}-->
 <form role="form">
   <div class="form-group">
     <label for="email">Email address:</label>
-    <input type="email" class="form-control" id="email" required>
+    <input [(ngModel)]="user.email" type="email" class="form-control" id="email" required>
   </div>
   <div class="form-group">
     <label for="password">Password:</label>
-    <input type="password" class="form-control" id="password" required>
+    <input [(ngModel)]="user.password" type="password" class="form-control" id="password" required>
   </div>
   <div class="form-group">
     <label for="password2">Password verification:</label>
@@ -15,15 +22,15 @@
   </div>
   <div class="form-group">
     <label for="name">Name:</label>
-    <input type="text" class="form-control" id="name" required>
+    <input [(ngModel)]="user.name" type="text" class="form-control" id="name" required>
   </div>
   <div class="form-group">
     <label for="city">City:</label>
-    <input type="text" class="form-control" id="city">
+    <input [(ngModel)]="user.city" type="text" class="form-control" id="city">
   </div>
   <div class="form-group">
     <label for="state">State:</label>
-    <input type="text" class="form-control" id="state">
+    <input [(ngModel)]="user.state" type="text" class="form-control" id="state">
   </div>
   <button (click)="signup()" class="btn btn-primary">Signup</button>
 </form>

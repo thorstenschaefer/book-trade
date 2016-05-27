@@ -1,3 +1,6 @@
+<p *ngIf="user === null">waiting for user data</p>
+<div *ngIf="user">
+
 <h3>Library of {{user.email}}</h3>
 
 <h4>Add a new book</h4>
@@ -15,3 +18,4 @@
 <ul>
   <li *ngFor="let book of (books|async)">{{book.title}}</li>
 </ul>
+</div>

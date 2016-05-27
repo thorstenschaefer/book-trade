@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFire, FirebaseAuthState, AuthProviders, AuthMethods } from 'angularfire2';
-import { Observable } from 'rxjs';
+import { AngularFire, FirebaseObjectObservable, FirebaseListObservable, FirebaseAuthState, AuthProviders, AuthMethods } from 'angularfire2';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/of';
 
 import { User } from './user';
 
@@ -9,40 +11,68 @@ const LOGIN_CONFIG = { provider: AuthProviders.Password, method: AuthMethods.Pas
 @Injectable()
 export class UserService {
 
-
-  private user:User;
-  public user$: Observable<User> = Observable.of(null);
+  public users: FirebaseObjectObservable<any>;
+  public user: Observable<User>;
+  public loggedIn: Observable<boolean>;
+  /**
+   * currently logged in user
+   */
+  // public user:User;
   
-  constructor(private af: AngularFire) {
-    // this.af.object()
+  constructor(public af: AngularFire) {
+    //     console.log("INIT user SERVCIE")
+    // this.af.auth.subscribe(auth => console.log("auth changed to id " + auth.uid));
+    this.users = af.object('/users');
+    this.user = this.af.auth.flatMap(auth => auth === null ? Observable.of(null) : this.af.object('/users/' + auth.uid));
+    this.loggedIn = this.user.map(user => user !== null);
   }
   
-  isLoggedIn(): Observable<boolean> {
-    return this.getAuthentication().map(auth => auth !== null);
-  }
+  getUser():Observable<User> {
+    // console.log("getting user observable");
+    // return this.af.auth.flatMap(auth => auth ? this.af.object('/users/' + auth.uid) : Observable.of(null));
+ 
+    return this.user; 
+ }
   
- /** Returns an observable of string with the user ID. For non-authenticated users, this is null */
-  getAuthentication(): Observable<User> {
-    return this.af.auth.map(auth => 
-      auth === null 
-        ? null 
-        : { "id" : auth.uid, "email" : auth.password.email });
-  }
-  
-  login(email:string, password:string):Promise<FirebaseAuthState> {
+  // isLoggedIn(): Observable<boolean> {
+  //   return this.getUser().map(userObservable => userObservable === null ? false : true);
+  // }
+    
+  login(email:string, password:string) {
     console.log("Login called");
     return this.af.auth.login({ email:email, password:password }, LOGIN_CONFIG);
   }
   
- logout() {
+ logout():void {
     console.log("Logout called");
     this.af.auth.logout();
+  }
     
+  
+  updateUserData(user: User) {
+    console.log("Updating user information " + JSON.stringify(user));
+    let userData = this.af.object('/users/' + user.id);
+    userData.update({ 'city':user.city, 'state':user.state });
   }
   
-  getUserData():Observable<any> {
-    return this.getAuthentication()
-      .map(user => user.id)
-      .flatMap(userId => this.af.list('users/' + userId));
+  signup(user:User) {
+    console.log("user.service: SIGNUP " + JSON.stringify(user));
+    let promise = this.af.auth.createUser(user).then(
+      newUser => {
+        console.log("new user created, storing it in the users collection");
+        let userId = newUser.uid;
+        user.id = userId;
+        this.af.auth.login(user).then(
+          auth => {
+            let object = {};
+            delete user.password;
+            object[userId] = user;
+            this.users.update( object );
+          }
+        )
+      }
+    ).catch(e => console.warn(e));
+    
+    return promise;
   }
 }

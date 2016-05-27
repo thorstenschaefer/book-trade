@@ -20,18 +20,17 @@ import { HeaderComponent } from './header/header.component';
   providers: [ROUTER_PROVIDERS, BookService, UserService]
 })
 @Routes([
-  {path: '/user', component: UserComponent},
+  {path: '/user/:userId', component: UserComponent},
   {path: '/settings', component: SettingsComponent},
   {path: '/signup', component: SignupComponent}
 ])
 export class BookTradeAppComponent {
-  title = 'book-trade works!';
-  
+
   books:Book[] = [];
   
   
   constructor(private bookService:BookService) {
-    this.bookService.findBooks("Lord of the rings").subscribe(r => console.log(r));
+    this.bookService.allBooks.subscribe(books => this.books = books);
   }
   
     public alerts:Array<Object> = [

@@ -10,15 +10,17 @@
         </a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
+        <!--User: {{ userService.getUser()|async |json }}
+        Auth: {{ userService.af.auth | async | json}}-->
 
-        <!-- user is logged in -->
-        <div *ngIf="userService.isLoggedIn() | async">
+         <!--user is logged in -->
+        <div *ngIf="userService.loggedIn | async">
           <ul class="nav navbar-nav">
-            <li><a [routerLink]="['./user', 'user', (userService.getAuthentication() | async).id]">My Books</a></li>
+            <li><a [routerLink]="['/user', (userService.user | async).id]">My Books</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <a>Logged in as {{ (userService.getAuthentication() | async).email }}</a>
+              <a>Logged in as {{ (userService.getUser() | async).email }}</a>
             </li>
             <li>
               <a href="#" (click)="logout()">
@@ -28,7 +30,7 @@
           </ul>
         </div>
         <!-- user is not logged in -->
-        <form *ngIf="!(userService.isLoggedIn() | async)" class="navbar-form navbar-right" role="search">
+        <form *ngIf="!(userService.loggedIn | async)" class="navbar-form navbar-right" role="search">
             <div class="form-group">
                 <input #email type="text" class="form-control" name="email" placeholder="Email">
             </div>

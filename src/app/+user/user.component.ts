@@ -28,8 +28,9 @@ export class UserComponent implements OnInit {
   constructor(private userService:UserService, private bookService:BookService) {}
 
   ngOnInit() {
-    this.userService.getAuthentication()
+    this.userService.getUser()
       .subscribe(u => {
+        console.log("found new user: " + JSON.stringify(u))
         this.user = u;
         this.books = this.bookService.getBooksOfUser(u.id);
       });

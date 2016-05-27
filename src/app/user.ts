@@ -4,5 +4,6 @@ export interface User {
     password?: string,
     name: string,
     city?: string,
-    state?: string
+    state?: string,
+    books?: string[]
 }
