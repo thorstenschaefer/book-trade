@@ -2,13 +2,14 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Book } from '../book';
 import { Shorten } from '../shorten.pipe';
+import { ArrayConcat } from '../array-concat.pipe';
 
 @Component({
   moduleId: module.id,
   selector: 'app-book-list',
   templateUrl: 'book-list.component.html',
   styles: ['.book { cursor:pointer }'],
-  pipes: [Shorten]
+  pipes: [Shorten, ArrayConcat]
 })
 export class BookListComponent implements OnInit {
 

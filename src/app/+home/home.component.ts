@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 
+import { UserService } from '../user';
 import { BookListComponent } from '../book-list/book-list.component';
-import { BookService } from '../book.service';
-import { Book } from '../book';
+import { Book, BookService } from '../book';
 import { CarouselComponent } from 'ng2-bootstrap/components/carousel/carousel.component';
 import { SlideComponent } from 'ng2-bootstrap/components/carousel/slide.component';
 
@@ -12,13 +12,14 @@ import { SlideComponent } from 'ng2-bootstrap/components/carousel/slide.componen
   selector: 'app-home',
   templateUrl: 'home.component.html',
   styles: [`.carousel-control .left { background-image:none, background-color:green }`],
-  directives: [BookListComponent, CarouselComponent, SlideComponent]
+  directives: [ROUTER_DIRECTIVES, BookListComponent, CarouselComponent, SlideComponent]
 })
 export class HomeComponent implements OnInit {
 
   books:Book[] = [];
 
   constructor(
+    private userService:UserService,
     private bookService:BookService,
     private router:Router
   ) {

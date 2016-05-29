@@ -1,4 +1,4 @@
-<p *ngIf="user === null">waiting for user data</p>
+<p *ngIf="!user">waiting for user data</p>
 <div *ngIf="user">
 
 <h3>Library of {{user.email}}</h3>

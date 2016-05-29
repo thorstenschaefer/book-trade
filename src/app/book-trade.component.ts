@@ -6,19 +6,18 @@ import { SignupComponent } from './+signup';
 import { BookComponent } from './+book';
 import { HomeComponent } from './+home';
 
-import { AlertComponent } from 'ng2-bootstrap/components/alert/alert.component';
+// import { AlertComponent } from 'ng2-bootstrap/components/alert/alert.component';
 
-import { BookService } from './book.service';
-import { Book } from './book';
+import { Book, BookService } from './book';
 import { BookListComponent } from './book-list/book-list.component';
-import { UserService } from './user.service';
+import { UserService } from './user';
 import { HeaderComponent } from './header/header.component';
 
 @Component({
   moduleId: module.id,
   selector: 'book-trade-app',
   templateUrl: 'book-trade.component.html',
-  directives: [ROUTER_DIRECTIVES, AlertComponent, BookListComponent, HeaderComponent],
+  directives: [ROUTER_DIRECTIVES, BookListComponent, HeaderComponent],
   providers: [ROUTER_PROVIDERS, BookService, UserService]
 })
 @Routes([

@@ -9,8 +9,7 @@ import 'underscore';
 declare let _;
 
 import { Book } from './book';
-import { User } from './user';
-import { UserService } from './user.service';
+import { User, UserService } from '../user';
 
 const GOOGLE_BOOKS_API = 'https://www.googleapis.com/books/v1/volumes';
 
@@ -18,25 +17,26 @@ const GOOGLE_BOOKS_API = 'https://www.googleapis.com/books/v1/volumes';
 export class BookService {
   
   public allBooks:FirebaseListObservable<Book[]>;
-  private userBooks:FirebaseListObservable<Book[]>;
+  
+  public userBooks:FirebaseListObservable<Book[]>;
   
   constructor(
     private http:Http,
     private af:AngularFire,
     private userService:UserService
   ) {
-    console.log("INIT BOOK SERVCIE")
+    // console.log("INIT BOOK SERVCIE")
     this.allBooks = this.af.list('/books');
-    console.log("goot book list");
-    userService.getUser().subscribe(user => this.userBooks = this.getBookListOfUser(user));
-    console.log("DONE INIT BOOK SERVCIE")
+    // console.log("goot book list");
+    userService.user.subscribe(user => this.userBooks = (user === null ? null : this.af.list('/users/' + user.id + '/books')));
+    // console.log("DONE INIT BOOK SERVCIE")
   }
 
-  private getBookListOfUser(user:User) {
-    console.log("getting user books for " + JSON.stringify(user));
+  // returns the books of a specific user...
+  private getBookListOfUser(user:User):Observable<Book[]> {
     if (user === null)
-      return null;
-    console.log("retrieving user books for user " + JSON.stringify(user));
+      return Observable.of([]);
+    console.log("retrieving user books for user " + user.name);
     return this.af.list('/users/' + user.id + '/books');
       
   }
@@ -57,11 +57,6 @@ export class BookService {
       .map(array => array.map(bookInfo => bookInfo.volumeInfo))
       .map(array => array.map(bookInfo => <Book>_.pick(bookInfo, 'id', 'authors', 'title', 'subtitle', 'language', 'description', 'pageCount', 'imageLinks')));    
   }
-  
-  // getAllBooks(): Observable<Book[]> {
-  //   console.log("Retrieving all books");
-  //   return this.af.list('/books');
-  // }
   
   getBooksOfUser(userId: string): Observable<Book[]> {
     console.log("Retrieving books of user..." + userId);

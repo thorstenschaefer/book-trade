@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { UserService } from '../user.service';
-import { User } from '../user';
+import { User, UserService } from '../user';
 
 @Component({
   moduleId: module.id,
@@ -27,8 +26,6 @@ export class SignupComponent implements OnInit {
   }
 
   signup() {
-    console.log("Signing up");
     this.userService.signup(this.user)
-    
   }
 }

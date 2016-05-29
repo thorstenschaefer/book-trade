@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFire, FirebaseObjectObservable, FirebaseListObservable, FirebaseAuthState, AuthProviders, AuthMethods } from 'angularfire2';
+
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/share';
 import 'rxjs/add/observable/of';
 
 import { User } from './user';
@@ -11,32 +14,21 @@ const LOGIN_CONFIG = { provider: AuthProviders.Password, method: AuthMethods.Pas
 @Injectable()
 export class UserService {
 
-  public users: FirebaseObjectObservable<any>;
+  private users: FirebaseObjectObservable<any>;  
+  
   public user: Observable<User>;
   public loggedIn: Observable<boolean>;
-  /**
-   * currently logged in user
-   */
-  // public user:User;
-  
-  constructor(public af: AngularFire) {
-    //     console.log("INIT user SERVCIE")
-    // this.af.auth.subscribe(auth => console.log("auth changed to id " + auth.uid));
-    this.users = af.object('/users');
+
+  constructor(private af:AngularFire) {
     this.user = this.af.auth.flatMap(auth => auth === null ? Observable.of(null) : this.af.object('/users/' + auth.uid));
-    this.loggedIn = this.user.map(user => user !== null);
+    this.loggedIn = this.user.map(user => user !== null);   
+    
+    // debug
+    this.af.auth.subscribe(auth => console.warn("DEBUG US: auth changed to id " + (auth ? auth.uid : null)));
+    this.user.subscribe(u => console.warn("DEBUG US: user change " + u));
+    this.loggedIn.subscribe(s => console.warn("DEBUG US: loggedIn state now " + s));
+
   }
-  
-  getUser():Observable<User> {
-    // console.log("getting user observable");
-    // return this.af.auth.flatMap(auth => auth ? this.af.object('/users/' + auth.uid) : Observable.of(null));
- 
-    return this.user; 
- }
-  
-  // isLoggedIn(): Observable<boolean> {
-  //   return this.getUser().map(userObservable => userObservable === null ? false : true);
-  // }
     
   login(email:string, password:string) {
     console.log("Login called");
