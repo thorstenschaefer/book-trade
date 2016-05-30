@@ -23,10 +23,10 @@ export class UserService {
     this.user = this.af.auth.flatMap(auth => auth === null ? Observable.of(null) : this.af.object('/users/' + auth.uid));
     this.loggedIn = this.user.map(user => user !== null);   
     
-    // debug
-    this.af.auth.subscribe(auth => console.warn("DEBUG US: auth changed to id " + (auth ? auth.uid : null)));
-    this.user.subscribe(u => console.warn("DEBUG US: user change " + u));
-    this.loggedIn.subscribe(s => console.warn("DEBUG US: loggedIn state now " + s));
+    // // debug
+    // this.af.auth.subscribe(auth => console.warn("DEBUG US: auth changed to id " + (auth ? auth.uid : null)));
+    // this.user.subscribe(u => console.warn("DEBUG US: user change " + u));
+    // this.loggedIn.subscribe(s => console.warn("DEBUG US: loggedIn state now " + s));
 
   }
     

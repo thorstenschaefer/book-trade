@@ -1,21 +1,43 @@
 <p *ngIf="!user">waiting for user data</p>
 <div *ngIf="user">
 
-<h3>Library of {{user.email}}</h3>
+  <h3>Library of {{user.email}}</h3>
 
-<h4>Add a new book</h4>
-<div class="form-group">
-  <input [ngFormControl]="searchBook" type="text" class="form-control" id="searchBook" placeholder="Search a book">
-</div>
+  <h4>Add a new book</h4>
+  <div class="form-group">
+    <input [ngFormControl]="searchBook" type="text" class="form-control" id="searchBook" placeholder="Search a book">
+  </div>
 
-<p *ngIf="queryUnderway">Searching for books...<p>
-<app-book-list [books]="searchBooksResults" (bookSelected)="addBook($event)"></app-book-list>
+  <p *ngIf="queryUnderway">Searching for books...
+    <p>
+      <app-book-list [books]="searchBooksResults" (bookSelected)="addBook($event)"></app-book-list>
 
 
-<h4>All books in your library</h4>
+      <h4>All books in your library</h4>
 
-<div *ngIf="!(books|async) || (books|async).length === 0">You don't have any books in your library yet.</div>
-<ul>
-  <li *ngFor="let book of (books|async)">{{book.title}}</li>
-</ul>
+      <div *ngIf="!(books|async) || (books|async).length === 0">You don't have any books in your library yet.</div>
+
+      <div class="row">
+      <div *ngFor="let book of (books|async); let i = index">
+        <div *ngIf="i%4===0" class="clearfix"></div>
+          <div class="col-md-3">
+            
+            <bs-panel>
+              <bs-header>{{book.title}}</bs-header>
+              <bs-body>
+                <img *ngIf="book.imageLinks?.thumbnail" class="center-block" [src]="book.imageLinks?.thumbnail">
+                <img *ngIf="!book.imageLinks?.thumbnail" class="center-block" src="/open-book-top-view.svg" width="128">
+              </bs-body>
+              <bs-footer>
+                <div style="text-align: center">
+                  <a [routerLink]="['/book', book.$key]" class="btn btn-primary">Details</a>
+                  <a (click)="deleteBook(book)" class="btn btn-danger">Delete</a>
+                  </div>
+              </bs-footer>
+            </bs-panel>
+          </div>
+        <!--</div>-->
+      </div>
+      <div>
+
 </div>

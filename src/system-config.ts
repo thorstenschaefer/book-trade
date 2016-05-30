@@ -52,6 +52,7 @@ const barrels: string[] = [
   'app/+home',
   'app/user',
   'app/book',
+  'app/bootstrap-panel',
   /** @cli-barrel */
 ];
 

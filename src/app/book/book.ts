@@ -6,5 +6,6 @@ export interface Book {
     language:string, 
     description?:string,
     pageCount?:number, 
-    imageLinks?:Object
+    imageLinks?:Object,
+    owner?:string
 }

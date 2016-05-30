@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Book } from '../book';
-import { BookService } from '../book.service';
+import { BookService } from '../book';
 
 @Component({
   moduleId: module.id,
   selector: 'app-book-form',
-  templateUrl: 'book-form.component.html',
-  styleUrls: ['book-form.component.css']
+  templateUrl: 'book-form.component.html'
 })
 export class BookFormComponent implements OnInit {
 
-  private books:Book[];
+  private books:Book;
   
   constructor(private bookService:BookService) {}
 

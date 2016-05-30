@@ -29,6 +29,7 @@ export class BookService {
     this.allBooks = this.af.list('/books');
     // console.log("goot book list");
     userService.user.subscribe(user => this.userBooks = (user === null ? null : this.af.list('/users/' + user.id + '/books')));
+    // userService.user.subscribe(user => this.userBooks = (user === null ? null : this.allBooks.map(books => books.filter(book => book.owner === user.id)));
     // console.log("DONE INIT BOOK SERVCIE")
   }
 
@@ -69,6 +70,19 @@ export class BookService {
   getBook(id:string):Observable<Book> {
     return this.af.object('/books/' + id);
   }
+
+
+  deleteBook(user:User, book:Book) {
+    console.log("Deleting book " + book.title + " from user " + user.name);
+    if (this.userBooks === null) {
+      console.warn("User " + user.name + " not logged in");
+      return;
+    }
+    
+    this.allBooks.remove(book);
+    console.log("pushing book to user book list");
+    this.userBooks.remove(book);
+  }
   
   addBook(user:User, book:Book) {
     console.log("Adding book " + book.title + " to user " + user.name);
@@ -77,6 +91,7 @@ export class BookService {
       return;
     }
     
+    book.owner = user.id; // add an owner reference
     console.log("pushing book to general book list");
     this.allBooks.push(book);
     console.log("pushing book to user book list");
