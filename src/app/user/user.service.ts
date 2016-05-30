@@ -25,12 +25,12 @@ export class UserService {
   }
     
   login(email:string, password:string) {
-    console.log("Login called");
+    // console.log("Login called");
     return this.af.auth.login({ email:email, password:password }, LOGIN_CONFIG);
   }
   
  logout():void {
-    console.log("Logout called");
+    // console.log("Logout called");
     this.af.auth.logout();
   }
     
@@ -41,7 +41,7 @@ export class UserService {
   }
   
   updateUserData(user: User) {
-    console.log("Updating user information " + JSON.stringify(user));
+    // console.log("Updating user information " + JSON.stringify(user));
     let userData = this.af.object('/users/' + user.id);
     userData.update({ 'city':user.city, 'state':user.state });
   }

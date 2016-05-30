@@ -7,7 +7,6 @@ import { BookComponent } from './+book';
 import { HomeComponent } from './+home';
 import { BooksComponent } from './+books';
 
-// import { AlertComponent } from 'ng2-bootstrap/components/alert/alert.component';
 
 import { Book, BookService } from './book';
 import { BookListComponent } from './book-list/book-list.component';
@@ -37,29 +36,4 @@ export class BookTradeAppComponent {
     // private router:Router
   ) {
   }
-  
-  //   public alerts:Array<Object> = [
-  //   {
-  //     type: 'danger',
-  //     msg: 'Oh snap! Change a few things up and try submitting again.'
-  //   },
-  //   {
-  //     type: 'success',
-  //     msg: 'Well done! You successfully read this important alert message.',
-  //     closable: true
-  //   }
-  // ];
-
-  // public closeAlert(i:number):void {
-  //   this.alerts.splice(i, 1);
-  // }
-
-  // public addAlert():void {
-  //   this.alerts.push({msg: 'Another alert!', type: 'warning', closable: true});
-  // }
-  
-  // public gotoBookDetails(book:Book) {
-  //   console.log("need to navigate to book: " + JSON.stringify(book));
-  //   this.router.navigate(['/book/', book["$key"]]);
-  // }
 }

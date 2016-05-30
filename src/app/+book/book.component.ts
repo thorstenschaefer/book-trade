@@ -15,7 +15,10 @@ export class BookComponent implements OnInit {
   private book:Book
   private owner:User;
   
-  constructor(private bookService:BookService, private userService:UserService) {}
+  constructor(
+    private bookService:BookService, 
+    private userService:UserService
+  ) { }
 
   ngOnInit() {
   }

@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
     let promise = this.userService.login(email, password);
     // after successful login, redirect to user page
     promise.then(value => {
-      console.log("login PROMISE.THEN");
+      // console.log("login PROMISE.THEN");
       this.router.navigate(['/user/', value.uid]);//, 'user', value.password.email]);
     }).catch(reason => alert(reason));
   }

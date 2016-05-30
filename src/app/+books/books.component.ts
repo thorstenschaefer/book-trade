@@ -27,7 +27,6 @@ export class BooksComponent implements OnInit {
   }
   
  public gotoBookDetails(book:Book) {
-    console.log("need to navigate to book: " + JSON.stringify(book));
     this.router.navigate(['/book/', book["$key"]]);
   }
 }
