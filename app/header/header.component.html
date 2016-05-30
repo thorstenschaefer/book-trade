@@ -1,0 +1,49 @@
+<div class="page-header">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+        <a class="navbar-brand" [routerLink]="['/']">
+          <i class="fa fa-book" aria-hidden="true"></i> BookTrade
+        </a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a [routerLink]="['/books']">All Books</a></li>
+        </ul>
+         <!--user is logged in -->
+        <div *ngIf="loggedIn">
+          <ul class="nav navbar-nav">
+            <li><a [routerLink]="['/user', user.id]">My Books</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a>Logged in as {{ user.email }}</a>
+            </li>
+            <li>
+              <a href="#" (click)="logout()">
+              Logout
+            </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- user is not logged in -->
+        <form *ngIf="!loggedIn" class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+                <input #email type="text" class="form-control" name="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input #password type="password" class="form-control" name="password" placeholder="Password">
+            </div>
+            <button (click)="login(email.value, password.value)" class="btn btn-primary">Login</button>
+            
+            <a [routerLink]="['/signup']" class="btn btn-default">Signup</a>
+        </form>
+      </div>
+      <!--/.navbar-collapse -->
+    </div>
+  </nav>
+</div>

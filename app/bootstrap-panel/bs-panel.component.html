@@ -1,0 +1,12 @@
+<div class="panel panel-{{contextType}}">
+  <div *ngIf="header" class="panel-heading">
+      <ng-content select="bs-header"></ng-content>
+  </div>
+  <div *ngIf="body" class="panel-body">
+    <ng-content select="bs-body"></ng-content>
+  </div>
+  <div *ngIf="footer" class="panel-footer">
+    <ng-content select="bs-footer"></ng-content>
+  </div>
+</div>
+

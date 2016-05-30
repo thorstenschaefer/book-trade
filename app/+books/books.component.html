@@ -1,0 +1,4 @@
+<div class="col-md-12">
+    <h2>Browse all {{books.length}} books</h2>
+    <app-book-list [books]="books" (bookSelected)="gotoBookDetails($event)"></app-book-list>
+</div>

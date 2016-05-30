@@ -1,0 +1,23 @@
+<div class="jumbotron">
+    <h1>BookTrade</h1>    
+    <div class="row">
+        <div class="col-md-8">
+            <p>At BookTrade, users can maintain their book library online. Look at books other users have read and if you like
+                one, make a trade request.</p>
+            <p>
+                The carousel on the right shows the most recent additions,
+                while you can browse through all books in the list on the bottom.
+            </p>
+            <p *ngIf="!(userService.loggedIn | async)"><a [routerLink]="['/signup']" class="btn btn-primary">Signup</a></p>
+        </div>
+        <div class="col-md-4">
+            <carousel [interval]="3000">
+                <slide *ngFor="let book of mostRecentBooks; let index=index">
+                    <img *ngIf="book.imageLinks?.thumbnail" [src]="book.imageLinks.thumbnail" style="margin:auto;">
+                </slide>
+            </carousel>
+        </div>
+    </div>
+</div>
+
+<app-books></app-books>

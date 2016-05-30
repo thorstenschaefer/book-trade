@@ -1,0 +1,21 @@
+  <h2> Book details</h2>
+  
+  <div *ngIf="book" class="row">
+    <div class="col-md-2">
+      <img *ngIf="book.imageLinks?.thumbnail" class="media-object" [src]="book.imageLinks?.thumbnail">
+      <img *ngIf="!book.imageLinks?.thumbnail" class="media-object" src="/open-book-top-view.svg" width="128">
+    </div>
+    <div class="col-md-10">
+      <h5>Title</h5> {{book.title}}
+      <h5>Subtitle</h5> {{book.subtitle}}
+      <h5>Authors</h5>{{getAuthors(book)}}
+      <h5>Pages</h5> {{book.pageCount}}
+      <h5>Owner</h5> {{owner?.name}}
+      <h5>Description</h5> {{book.description}}
+      <h5>&nbsp;</h5>
+      <p>
+        <a *ngIf="user && (user.id !== book.owner)" (click)="makeTradeRequest(book)" class="btn btn-primary">Request trade</a>
+        <a href="javascript:window.history.back()" class="btn btn-default">Back</a>
+      </p>
+    </div>
+  </div>
