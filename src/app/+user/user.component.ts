@@ -27,6 +27,11 @@ export class UserComponent implements OnInit {
   private searchBooksResults:Book[] = [];
   private queryUnderway:boolean = false;
   
+  private showProfile:boolean = false;
+  private city = new Control();
+  private state = new Control();
+  
+  
   constructor(private userService:UserService, private bookService:BookService) { }
 
   ngOnInit() {
@@ -34,6 +39,8 @@ export class UserComponent implements OnInit {
       .subscribe(u => {
         this.user = u;
         this.books = this.bookService.userBooks;
+        this.city.updateValue(u.city);
+        this.state.updateValue(u.state);
       });
        
     this.searchBook
@@ -51,5 +58,22 @@ export class UserComponent implements OnInit {
   addBook(book:Book) {
     this.bookService.addBook(this.user, book);
     this.searchBook.updateValue("");
+  }
+  
+  private toggleProfile() {
+    this.showProfile = !this.showProfile;
+  }
+  
+  private saveProfile() {
+    this.toggleProfile();
+    this.user.city = this.city.value;
+    this.user.state = this.state.value;
+    this.userService.updateUserData(this.user);
+  }
+  
+  private cancel() {
+    this.toggleProfile();
+    this.city.updateValue(this.user.city);
+    this.state.updateValue(this.user.state);
   }
 }
