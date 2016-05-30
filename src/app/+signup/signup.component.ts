@@ -19,12 +19,13 @@ export class SignupComponent implements OnInit {
     state:null
   };
 
-  constructor(router:Router, private userService:UserService) {}
+  constructor(private router:Router, private userService:UserService) {}
 
   ngOnInit() {
   }
 
   signup() {
     this.userService.signup(this.user)
+      .then(()=> this.router.navigate(['/user', this.user.id]));
   }
 }

@@ -20,6 +20,7 @@ export class UserService {
   public loggedIn: Observable<boolean>;
 
   constructor(private af:AngularFire) {
+    this.users = this.af.object('/users');
     this.user = this.af.auth.flatMap(auth => auth === null ? Observable.of(null) : this.af.object('/users/' + auth.uid));
     this.loggedIn = this.user.map(user => user !== null);
   }
@@ -46,13 +47,14 @@ export class UserService {
     userData.update({ 'name':user.name, 'city':user.city, 'state':user.state });
   }
   
-  signup(user:User) {
+  signup(user:User):Promise<any> {
     // console.log("user.service: SIGNUP " + JSON.stringify(user));
     let promise = this.af.auth.createUser(user).then(
       newUser => {
         // console.log("new user created, storing it in the users collection");
         let userId = newUser.uid;
         user.id = userId;
+        // console.warn("auth user " + JSON.stringify(user));
         this.af.auth.login(user).then(
           auth => {
             let object = {};
@@ -62,7 +64,7 @@ export class UserService {
           }
         )
       }
-    ).catch(e => console.warn(e));
+    ).catch(e => console.error(e));
     
     return promise;
   }

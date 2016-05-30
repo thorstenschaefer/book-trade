@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { UserComponent } from './+user';
 import { Router, Routes , ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
-import { SignupComponent } from './+signup';
+
 import { BookComponent } from './+book';
-import { HomeComponent } from './+home';
 import { BooksComponent } from './+books';
+import { HomeComponent } from './+home';
+import { SignupComponent } from './+signup';
+import { UserComponent } from './+user';
 
 
 import { Book, BookService } from './book';
@@ -20,11 +21,11 @@ import { HeaderComponent } from './header/header.component';
   providers: [ROUTER_PROVIDERS, BookService, UserService]
 })
 @Routes([
-  {path: '/user/:userId', component: UserComponent},
-  {path: '/signup', component: SignupComponent},
-  {path: '/book/:bookId', component: BookComponent},
   {path: '/', component: HomeComponent},
-  {path: '/books', component: BooksComponent}
+  {path: '/book/:bookId', component: BookComponent},
+  {path: '/books', component: BooksComponent},
+  {path: '/signup', component: SignupComponent},
+  {path: '/user/:userId', component: UserComponent}
 ])
 export class BookTradeAppComponent {
 
