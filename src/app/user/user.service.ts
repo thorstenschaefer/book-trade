@@ -21,13 +21,7 @@ export class UserService {
 
   constructor(private af:AngularFire) {
     this.user = this.af.auth.flatMap(auth => auth === null ? Observable.of(null) : this.af.object('/users/' + auth.uid));
-    this.loggedIn = this.user.map(user => user !== null);   
-    
-    // // debug
-    // this.af.auth.subscribe(auth => console.warn("DEBUG US: auth changed to id " + (auth ? auth.uid : null)));
-    // this.user.subscribe(u => console.warn("DEBUG US: user change " + u));
-    // this.loggedIn.subscribe(s => console.warn("DEBUG US: loggedIn state now " + s));
-
+    this.loggedIn = this.user.map(user => user !== null);
   }
     
   login(email:string, password:string) {
@@ -40,6 +34,11 @@ export class UserService {
     this.af.auth.logout();
   }
     
+  getUser(id:string):Observable<User> {
+    if (id == null)
+      return Observable.of(null);
+    return this.af.object('/users/' + id);
+  }
   
   updateUserData(user: User) {
     console.log("Updating user information " + JSON.stringify(user));
@@ -48,10 +47,10 @@ export class UserService {
   }
   
   signup(user:User) {
-    console.log("user.service: SIGNUP " + JSON.stringify(user));
+    // console.log("user.service: SIGNUP " + JSON.stringify(user));
     let promise = this.af.auth.createUser(user).then(
       newUser => {
-        console.log("new user created, storing it in the users collection");
+        // console.log("new user created, storing it in the users collection");
         let userId = newUser.uid;
         user.id = userId;
         this.af.auth.login(user).then(

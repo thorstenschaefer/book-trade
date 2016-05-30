@@ -1,3 +1,5 @@
+  <h2> Book details</h2>
+  
   <div *ngIf="book" class="row">
     <div class="col-md-2">
       <img *ngIf="book.imageLinks?.thumbnail" class="media-object" [src]="book.imageLinks?.thumbnail">
@@ -8,9 +10,11 @@
       <h5>Subtitle</h5> {{book.subtitle}}
       <h5>Authors</h5>{{getAuthors(book)}}
       <h5>Pages</h5> {{book.pageCount}}
+      <h5>Owner</h5> {{owner?.name}}
       <h5>Description</h5> {{book.description}}
-      <div>
+     
+      <p>
         <a [routerLink]="['/']" class="btn btn-primary">Home</a>
-      </div>
+      </p>
     </div>
   </div>

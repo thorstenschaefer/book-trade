@@ -18,7 +18,7 @@ export class BookService {
   
   public allBooks:FirebaseListObservable<Book[]>;
   
-  public userBooks:FirebaseListObservable<Book[]>;
+  public userBooks:Observable<Book[]>;
   
   constructor(
     private http:Http,
@@ -28,19 +28,19 @@ export class BookService {
     // console.log("INIT BOOK SERVCIE")
     this.allBooks = this.af.list('/books');
     // console.log("goot book list");
-    userService.user.subscribe(user => this.userBooks = (user === null ? null : this.af.list('/users/' + user.id + '/books')));
-    // userService.user.subscribe(user => this.userBooks = (user === null ? null : this.allBooks.map(books => books.filter(book => book.owner === user.id)));
+    // userService.user.subscribe(user => this.userBooks = (user === null ? null : this.af.list('/users/' + user.id + '/books')));
+    userService.user.subscribe(user => this.userBooks = (user === null ? null : this.allBooks.map(books => books.filter(book => book.owner === user.id))));
     // console.log("DONE INIT BOOK SERVCIE")
   }
 
   // returns the books of a specific user...
-  private getBookListOfUser(user:User):Observable<Book[]> {
-    if (user === null)
-      return Observable.of([]);
-    console.log("retrieving user books for user " + user.name);
-    return this.af.list('/users/' + user.id + '/books');
+  // private getBookListOfUser(user:User):Observable<Book[]> {
+  //   if (user === null)
+  //     return Observable.of([]);
+  //   console.log("retrieving user books for user " + user.name);
+  //   return this.af.list('/users/' + user.id + '/books');
       
-  }
+  // }
   
   
   findBooks(query:string):Observable<Book[]> {
@@ -80,8 +80,6 @@ export class BookService {
     }
     
     this.allBooks.remove(book);
-    console.log("pushing book to user book list");
-    this.userBooks.remove(book);
   }
   
   addBook(user:User, book:Book) {
@@ -94,25 +92,5 @@ export class BookService {
     book.owner = user.id; // add an owner reference
     console.log("pushing book to general book list");
     this.allBooks.push(book);
-    console.log("pushing book to user book list");
-    this.userBooks.push(book);
-    // 
-    // this.userService.user.
-    
-    // this.userService.getAuthentication().subscribe(
-    //   user => {
-    //     if (user === null)
-    //       return;
-        
-    //     console.log("TODO: Adding book " + book.title + " for user " + user.id);
-    //     let key = this.books.push(book).key();
-    //     console.log(key);
-        
-    //     // TODO
-    //     this.userService.getUserData().subscribe(r => console.log(r));
-    //   }
-    // );
-
-    // this.af.database("/")
   }
 }

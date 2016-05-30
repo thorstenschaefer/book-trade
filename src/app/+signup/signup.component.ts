@@ -16,8 +16,7 @@ export class SignupComponent implements OnInit {
     password: null,
     name: null,
     city:null,
-    state:null,
-    books:[] 
+    state:null
   };
 
   constructor(router:Router, private userService:UserService) {}

@@ -5,6 +5,7 @@ import { SettingsComponent } from './+settings';
 import { SignupComponent } from './+signup';
 import { BookComponent } from './+book';
 import { HomeComponent } from './+home';
+import { BooksComponent } from './+books';
 
 // import { AlertComponent } from 'ng2-bootstrap/components/alert/alert.component';
 
@@ -25,7 +26,8 @@ import { HeaderComponent } from './header/header.component';
   {path: '/settings', component: SettingsComponent},
   {path: '/signup', component: SignupComponent},
   {path: '/book/:bookId', component: BookComponent},
-  {path: '/', component: HomeComponent}
+  {path: '/', component: HomeComponent},
+  {path: '/books', component: BooksComponent}
 ])
 export class BookTradeAppComponent {
 

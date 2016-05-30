@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouteSegment, ROUTER_DIRECTIVES } from '@angular/router';
 
 import { Book, BookService } from '../book';
+import { User, UserService } from '../user';
 
 @Component({
   moduleId: module.id,
@@ -12,14 +13,19 @@ import { Book, BookService } from '../book';
 export class BookComponent implements OnInit {
 
   private book:Book
-  constructor(private bookService:BookService) {}
+  private owner:User;
+  
+  constructor(private bookService:BookService, private userService:UserService) {}
 
   ngOnInit() {
   }
   
   routerOnActivate(curr: RouteSegment): void {
     let id = curr.getParam('bookId'); 
-    this.bookService.getBook(id).subscribe(book => this.book = book);
+    this.bookService.getBook(id).subscribe(book => {
+      this.book = book;
+      book === null ? this.owner = null : this.userService.getUser(book.owner).subscribe(user => this.owner = user);
+    });
   }
   
   getAuthors(book:Book):string {

@@ -37,13 +37,11 @@ export class BookListComponent implements OnInit, OnChanges {
   onClick(book:Book) {
     if (!book)
       return;
-    console.log("Selected book " + JSON.stringify(book));
     this.bookSelected.emit(book);
   }
   
   pageChanged(pageChangeEvent) {
     let page:number = pageChangeEvent.page;
     this.pagedBooks = this.books.slice(10*(page-1), 10*page);
-    console.log(this.pagedBooks.length);
   }
 }
