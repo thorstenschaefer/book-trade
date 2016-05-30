@@ -78,8 +78,8 @@ export class UserComponent implements OnInit {
   }
   
   private setControlValues() {
-    this.name.updateValue(this.user.name);
-    this.city.updateValue(this.user.city);
-    this.state.updateValue(this.user.state);
+    this.name.updateValue(this.user ? this.user.name : "");
+    this.city.updateValue(this.user ? this.user.city : "");
+    this.state.updateValue(this.user ? this.user.state : "");
   }
 }
