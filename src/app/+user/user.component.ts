@@ -28,6 +28,7 @@ export class UserComponent implements OnInit {
   private queryUnderway:boolean = false;
   
   private showProfile:boolean = false;
+  private name = new Control();
   private city = new Control();
   private state = new Control();
   
@@ -39,8 +40,7 @@ export class UserComponent implements OnInit {
       .subscribe(u => {
         this.user = u;
         this.books = this.bookService.userBooks;
-        this.city.updateValue(u.city);
-        this.state.updateValue(u.state);
+        this.setControlValues();
       });
        
     this.searchBook
@@ -66,6 +66,7 @@ export class UserComponent implements OnInit {
   
   private saveProfile() {
     this.toggleProfile();
+    this.user.name = this.name.value;
     this.user.city = this.city.value;
     this.user.state = this.state.value;
     this.userService.updateUserData(this.user);
@@ -73,6 +74,11 @@ export class UserComponent implements OnInit {
   
   private cancel() {
     this.toggleProfile();
+    this.setControlValues();
+  }
+  
+  private setControlValues() {
+    this.name.updateValue(this.user.name);
     this.city.updateValue(this.user.city);
     this.state.updateValue(this.user.state);
   }

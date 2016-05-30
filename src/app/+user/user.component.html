@@ -5,6 +5,8 @@
 
   <div *ngIf="showProfile">
     <h4>Edit your profile</h4>
+    <label for="name"></label>
+    <input [ngFormControl]="name" type="text" class="form-control" id="name">
     <label for="city"></label>
     <input [ngFormControl]="city" type="text" class="form-control" id="city">
     <label for="state"></label>
