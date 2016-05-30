@@ -7,7 +7,7 @@ import 'rxjs/add/operator/switchMap';
 import { ROUTER_DIRECTIVES} from '@angular/router';
 
 import { User, UserService } from '../user';
-import { Book, BookService } from '../book';
+import { Book, BookService, TradeRequest } from '../book';
 import { BookListComponent } from '../book-list/book-list.component';
 import { BS_PANEL_DIRECTIVES } from '../bootstrap-panel';
 
@@ -22,6 +22,10 @@ export class UserComponent implements OnInit {
 
   private user:User;
   private books:Observable<Book[]>;
+  
+  private requestsFromMe:TradeRequest[];
+  private requestsByMe:TradeRequest[];
+  
   
   private searchBook = new Control();
   private searchBooksResults:Book[] = [];
@@ -40,6 +44,8 @@ export class UserComponent implements OnInit {
       .subscribe(u => {
         this.user = u;
         this.books = this.bookService.userBooks;
+        this.bookService.getTradeRequestsFrom(u).subscribe(r => this.requestsFromMe = r);
+        this.bookService.getTradeRequestsBy(u).subscribe(r => this.requestsByMe = r);
         this.setControlValues();
       });
        
@@ -81,5 +87,13 @@ export class UserComponent implements OnInit {
     this.name.updateValue(this.user ? this.user.name : "");
     this.city.updateValue(this.user ? this.user.city : "");
     this.state.updateValue(this.user ? this.user.state : "");
+  }
+  
+  private acceptRequest(request:TradeRequest) {
+    this.bookService.updateRequestStatus(request, 'accepted')
+  }
+  
+  private declineRequest(request:TradeRequest) {
+    this.bookService.updateRequestStatus(request, 'decline')
   }
 }

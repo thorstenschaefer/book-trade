@@ -10,12 +10,14 @@ declare let _;
 
 import { Book } from './book';
 import { User, UserService } from '../user';
+import { TradeRequest } from './trade-request';
 
 const GOOGLE_BOOKS_API = 'https://www.googleapis.com/books/v1/volumes';
 
 @Injectable()
 export class BookService {
   
+  public allTradeRequests:FirebaseListObservable<TradeRequest[]>;
   public allBooks:FirebaseListObservable<Book[]>;
   
   public userBooks:Observable<Book[]>;
@@ -25,24 +27,11 @@ export class BookService {
     private af:AngularFire,
     private userService:UserService
   ) {
-    // console.log("INIT BOOK SERVCIE")
+    this.allTradeRequests = <FirebaseListObservable<TradeRequest[]>>this.af.list('/traderequests');
     this.allBooks = this.af.list('/books');
-    // console.log("goot book list");
-    // userService.user.subscribe(user => this.userBooks = (user === null ? null : this.af.list('/users/' + user.id + '/books')));
     userService.user.subscribe(user => this.userBooks = (user === null ? null : this.allBooks.map(books => books.filter(book => book.owner === user.id))));
-    // console.log("DONE INIT BOOK SERVCIE")
   }
 
-  // returns the books of a specific user...
-  // private getBookListOfUser(user:User):Observable<Book[]> {
-  //   if (user === null)
-  //     return Observable.of([]);
-  //   console.log("retrieving user books for user " + user.name);
-  //   return this.af.list('/users/' + user.id + '/books');
-      
-  // }
-  
-  
   findBooks(query:string):Observable<Book[]> {
     console.log("Finding books using query: " + query);
     if (!query || query.length === 0) {
@@ -91,6 +80,21 @@ export class BookService {
     
     book.owner = user.id; // add an owner reference
     console.log("pushing book to general book list");
-    this.allBooks.push(book);
+    this.allBooks.push(book);    
+  }
+  
+  addTradeRequest(tradeRequest:TradeRequest) {
+    this.allTradeRequests.push(tradeRequest);
+  }
+  
+  getTradeRequestsFrom(user:User):Observable<TradeRequest[]> {
+    return user === null ? Observable.of([]) : this.allTradeRequests.map(requests => requests.filter(request => request.requesterId === user.id));
+  }
+  getTradeRequestsBy(user:User):Observable<TradeRequest[]> {
+    return user === null ? Observable.of([]) : this.allTradeRequests.map(requests => requests.filter(request => request.ownerId === user.id && request.status === 'new'));
+  }
+
+  updateRequestStatus(request:TradeRequest, newStatus:string) {
+    this.af.object('/traderequests/' + request.$key).update({status:newStatus});
   }
 }

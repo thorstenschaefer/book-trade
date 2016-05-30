@@ -3,6 +3,21 @@
 
   <h3>Library of {{user.email}} <small><a *ngIf="!showProfile" (click)="toggleProfile()">Edit profile</a></small></h3>
 
+  <div *ngIf="requestsFromMe && requestsFromMe.length > 0">
+    <h4>Status of your trade requests:</h4>
+    <div *ngFor="let r of requestsFromMe"><span class="label label-info">{{r.status}}</span> {{ (bookService.getBook(r.bookId) | async)?.title }}</div>
+  </div>
+  <div *ngIf="requestsByMe && requestsByMe.length > 0">
+    <h4>Other users have requested to trade the following of your books:</h4>
+      <div *ngFor="let r of requestsByMe">
+        {{ (bookService.getBook(r.bookId) | async)?.title }}
+        <a (click)="acceptRequest(r)" class="btn btn-xs btn-primary">Accept</a>
+        <a (click)="declineRequest(r)" class="btn btn-xs btn-danger">Decline</a>
+      </div>
+
+    <!--<p *ngFor="let r of requestsByMe">{{r | json}}</p>-->
+  </div>
+
   <div *ngIf="showProfile">
     <h4>Edit your profile</h4>
     <label for="name"></label>
