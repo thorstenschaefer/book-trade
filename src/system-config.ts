@@ -44,7 +44,6 @@ const barrels: string[] = [
   'app/shared',
   'app/book-list',
   'app/+user',
-  'app/+settings',
   'app/book-form',
   'app/header',
   'app/+signup',

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { UserComponent } from './+user';
 import { Router, Routes , ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from '@angular/router';
-import { SettingsComponent } from './+settings';
 import { SignupComponent } from './+signup';
 import { BookComponent } from './+book';
 import { HomeComponent } from './+home';
@@ -22,7 +21,6 @@ import { HeaderComponent } from './header/header.component';
 })
 @Routes([
   {path: '/user/:userId', component: UserComponent},
-  {path: '/settings', component: SettingsComponent},
   {path: '/signup', component: SignupComponent},
   {path: '/book/:bookId', component: BookComponent},
   {path: '/', component: HomeComponent},
