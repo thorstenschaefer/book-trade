@@ -28,13 +28,17 @@ export class BookComponent implements OnInit {
   routerOnActivate(curr: RouteSegment): void {
     let id = curr.getParam('bookId'); 
     this.bookService.getBook(id).subscribe(book => {
+      console.log("got book obs");
       this.book = book;
-      this.book.id = id;
+      if (this.book !== null)
+        this.book.id = id;
+      console.log("set owner");
       book === null ? this.owner = null : this.userService.getUser(book.owner).subscribe(user => this.owner = user);
     });
   }
   
   getAuthors(book:Book):string {
+    console.log("get authors");
     if (!book)
       return "";
     if (!book.authors)
@@ -43,6 +47,7 @@ export class BookComponent implements OnInit {
   }
   
   private makeTradeRequest(book:Book) {
+    console.log("make trade")
     let request:TradeRequest = {
         bookId: this.book.id,
         ownerId: this.owner.id,
