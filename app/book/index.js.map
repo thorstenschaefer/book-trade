@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["index.ts"],"names":[],"mappings":";AACA,6BAA4B,gBAAgB,CAAC;AAApC,iDAAoC;AACE","sourcesContent":["export { Book } from './book';\nexport { BookService } from './book.service';\nexport { TradeRequest } from './trade-request';"]}

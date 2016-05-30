@@ -1,0 +1,1 @@
+{"version":3,"file":"book.js","sourceRoot":"","sources":["book.ts"],"names":[],"mappings":"","sourcesContent":["export interface Book {\n    id:string,\n    authors:string[], \n    title:string,\n    subtitle?:string,\n    language:string, \n    description?:string,\n    pageCount?:number, \n    imageLinks?:Object,\n    owner?:string\n}\n"]}

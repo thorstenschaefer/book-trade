@@ -1,0 +1,1 @@
+{"version":3,"file":"trade-request.js","sourceRoot":"","sources":["trade-request.ts"],"names":[],"mappings":"","sourcesContent":["export interface TradeRequest {\n    bookId:string,\n    ownerId:string, \n    requesterId:string,\n    status:string,\n    $key?:string\n}\n"]}
