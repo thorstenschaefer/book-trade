@@ -43,7 +43,7 @@ export class UserService {
   updateUserData(user: User) {
     // console.log("Updating user information " + JSON.stringify(user));
     let userData = this.af.object('/users/' + user.id);
-    userData.update({ 'city':user.city, 'state':user.state });
+    userData.update({ 'name':user.name, 'city':user.city, 'state':user.state });
   }
   
   signup(user:User) {
