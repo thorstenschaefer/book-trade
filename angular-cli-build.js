@@ -15,8 +15,8 @@ module.exports = function(defaults) {
       'ng2-bootstrap/**/*.+(js|js.map)',
       'moment/moment.js',
       'underscore/underscore.js',
-      'angularfire2/**/*.js',
-      'firebase/lib/*.js'            
+      'angularfire2/**/*.+(js|js.map)',
+      'firebase/lib/*.+(js|js.map)'            
     ]
   });
 };
